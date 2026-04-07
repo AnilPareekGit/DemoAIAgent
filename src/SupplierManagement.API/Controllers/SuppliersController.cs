@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SupplierManagement.API.DTOs;
 using SupplierManagement.Domain.Entities;
 using SupplierManagement.Domain.Repositories;
 
@@ -55,9 +56,19 @@ public class SuppliersController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(Supplier), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Supplier>> CreateSupplier([FromBody] Supplier supplier)
+    public async Task<ActionResult<Supplier>> CreateSupplier([FromBody] CreateSupplierRequest request)
     {
-        _logger.LogInformation("Creating new supplier: {Name}", supplier.Name);
+        _logger.LogInformation("Creating new supplier");
+        
+        var supplier = new Supplier
+        {
+            Name = request.Name,
+            Type = request.Type,
+            Email = request.Email,
+            Phone = request.Phone,
+            Status = request.Status
+        };
+        
         var createdSupplier = await _repository.CreateAsync(supplier);
         return CreatedAtAction(nameof(GetSupplierById), new { id = createdSupplier.Id }, createdSupplier);
     }
