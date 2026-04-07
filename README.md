@@ -103,6 +103,7 @@ dotnet build
 ├── src/
 │   ├── SupplierManagement.API/          # Web API project
 │   │   ├── Controllers/                 # API controllers
+│   │   ├── DTOs/                        # Data Transfer Objects
 │   │   └── Program.cs                   # Application entry point
 │   ├── SupplierManagement.Domain/       # Domain layer
 │   │   ├── Entities/                    # Domain entities
@@ -112,3 +113,19 @@ dotnet build
 │       └── Repositories/                # Repository implementations
 └── SupplierManagement.slnx              # Solution file
 ```
+
+## Design Decisions
+
+- **DTO Pattern**: The Create endpoint uses a `CreateSupplierRequest` DTO to prevent clients from setting their own IDs, ensuring data integrity
+- **In-Memory Database**: Using EF Core's in-memory database for simplicity and quick testing
+- **Repository Pattern**: Abstracts data access logic for better testability and separation of concerns
+
+## Future Enhancements
+
+The following features were excluded from the initial implementation as per requirements but could be added:
+- Input validation (e.g., required fields, email format validation, phone number format)
+- Authentication and authorization
+- Update and Delete operations
+- Pagination for Get All endpoint
+- Filtering and sorting capabilities
+- Using enums for Type and Status fields for better type safety
